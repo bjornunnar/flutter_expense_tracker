@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:intl/intl.dart'; // the intl package allows us to format the date given by DateTime.now()
 
 // get third party package, store the function it provides in a variable
 import 'package:uuid/uuid.dart';

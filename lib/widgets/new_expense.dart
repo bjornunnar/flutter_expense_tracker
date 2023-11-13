@@ -32,7 +32,7 @@ class _NewExpenseState extends State<NewExpense>{
       child: Column(
         children: [
           TextField(
-            onChanged: _titleController
+            onChanged: _titleController,
             maxLength: 50,
             decoration: InputDecoration(label: Text("Title")),
           ),
