@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart'; // the intl package allows us to format the date given by DateTime.now()
 
-// get third party package, store the function it provides in a variable
+// get third party package to create IDs for expense items, store the function it provides in a variable
 import 'package:uuid/uuid.dart';
 const uuid = Uuid();
 

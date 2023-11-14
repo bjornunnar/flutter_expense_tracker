@@ -14,8 +14,12 @@ class Expenses extends StatefulWidget {
 class _ExpensesState extends State<Expenses> {
   void _openAddExpenseOverlay() {
     showModalBottomSheet(
-        context: context, builder: (ctx) => NewExpense(addNewExpense));
+        isScrollControlled: true,
+        context: context,
+        builder: (ctx) => NewExpense(addNewExpense: addNewExpense));
   }
+
+
 
   // create dummy data
   final List<Expense> _registeredExpenses = [
@@ -42,8 +46,49 @@ class _ExpensesState extends State<Expenses> {
     });
   }
 
+  void removeExpense(Expense data){
+    final expenseIndex = _registeredExpenses.indexOf(data);
+    setState(() {
+      _registeredExpenses.remove(data);
+    });
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        duration: const Duration(seconds: 3),
+        content: const Text("Expense Deleted"),
+        action: SnackBarAction(
+          label: "Undo",
+          onPressed: (){
+            setState((){
+              _registeredExpenses.insert(expenseIndex, data);
+        },);
+        }
+        ),
+      ),
+    );
+  }
+
   @override
+
   Widget build(BuildContext context) {
+    
+    // fallback text, displayed if there are no expenses in current view
+    Widget mainContent = 
+      const Center(
+        child: Text(
+          "No expenses found. Start adding some!"
+        ),
+    );
+
+    // display the list of expenses, if there are any
+    if (_registeredExpenses.isNotEmpty){
+      mainContent = 
+      ExpensesList(
+        expenses: _registeredExpenses,
+        removeExpense: removeExpense,
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(title: const Text("Expense Tracker"), actions: [
         IconButton(
@@ -53,11 +98,10 @@ class _ExpensesState extends State<Expenses> {
       ]),
       body: Column(
         children: [
-          const Text("Chart"),
+          const Text("(MISSING CHART)"),
           Expanded(
-              child: ExpensesList(
-            expenses: _registeredExpenses,
-          )),
+            child: mainContent
+          ),
         ],
       ),
     );

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:expense_tracker/models/expense.dart';
 
 class NewExpense extends StatefulWidget {
-  NewExpense(this.addNewExpense, {super.key});
+  const NewExpense({super.key, required this.addNewExpense});
 
-  Function addNewExpense; // TODO -- IMPLEMENT THIS METHOD!!
+  final void Function(Expense data) addNewExpense;
 
   @override
   State<NewExpense> createState() {
@@ -13,7 +13,6 @@ class NewExpense extends StatefulWidget {
 }
 
 class _NewExpenseState extends State<NewExpense> {
-  var _enteredTitle = "";
 
   // catches changes made in the textfield below, and stores in a variable
   final _titleController = TextEditingController();
@@ -43,6 +42,8 @@ class _NewExpenseState extends State<NewExpense> {
     });
   }
 
+  
+
   void _submitExpenseData() {
     final enteredAmount = double.tryParse(_amountController.text);
     final amountIsInvalid = enteredAmount == null ||
@@ -63,24 +64,28 @@ class _NewExpenseState extends State<NewExpense> {
                       onPressed: () {
                         Navigator.pop(ctx);
                       },
-                      child: Text("OK"))
+                      child: const Text("OK"))
                 ],
               ));
-      return;
+      return; // exit the function as last step in the error path
     }
     // after checks are made, everything is OK, we now add the input expense to the list
+    // Expense(title: , amount: , date: , category: )
+    Expense addedExpense = Expense(title: _titleController.text, amount: enteredAmount, date: _selectedDate!, category: _selectedCategory);
+    widget.addNewExpense(addedExpense);
+    Navigator.pop(context);
   }
 
   @override
   Widget build(context) {
     return Padding(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.fromLTRB(16, 48, 16, 16),
       child: Column(
         children: [
           TextField(
             controller: _titleController,
             maxLength: 50,
-            decoration: InputDecoration(label: Text("Title")),
+            decoration: const InputDecoration(label: Text("Title")),
           ),
           Row(
             children: [
@@ -88,7 +93,7 @@ class _NewExpenseState extends State<NewExpense> {
                 child: TextField(
                   controller: _amountController,
                   decoration:
-                      InputDecoration(prefixText: "\$", label: Text("Amount")),
+                      const InputDecoration(prefixText: "\$", label: Text("Amount")),
                   keyboardType: TextInputType.number,
                 ),
               ),
@@ -110,7 +115,7 @@ class _NewExpenseState extends State<NewExpense> {
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 16,
           ),
           Row(
@@ -141,7 +146,7 @@ class _NewExpenseState extends State<NewExpense> {
                   child: Text("Cancel")),
               const Spacer(),
               ElevatedButton(
-                  onPressed: _submitExpenseData, child: Text("Save Expense")),
+                  onPressed: _submitExpenseData, child: const Text("Save Expense")),
             ],
           )
         ],
