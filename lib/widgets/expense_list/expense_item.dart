@@ -20,12 +20,15 @@ class ExpenseItem extends StatelessWidget{
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 4),
-              child: Text(expense.title),
+              child: Text(
+                expense.title,
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
             ),
             Row(
               children: [
                 Text("\$${expense.amount.toStringAsFixed(2)}"), // limit to 2 chars after comma (10.00)
-                Spacer(),
+                const Spacer(),
                 Row(
                   children: [
                     Icon(categoryIcons[expense.category]),

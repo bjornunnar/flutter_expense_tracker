@@ -143,10 +143,11 @@ class _NewExpenseState extends State<NewExpense> {
                     Navigator.pop(
                         context); // closes the overlay by 'popping' the context given to the current build method
                   },
-                  child: Text("Cancel")),
+                  child: const Text("Cancel")),
               const Spacer(),
               ElevatedButton(
-                  onPressed: _submitExpenseData, child: const Text("Save Expense")),
+                  onPressed: _submitExpenseData, 
+                  child: const Text("Save Expense")),
             ],
           )
         ],
