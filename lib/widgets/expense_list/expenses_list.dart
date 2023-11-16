@@ -9,7 +9,6 @@ class ExpensesList extends StatelessWidget{
   final void Function(Expense data) removeExpense;
 
   Widget buildExpensesList(ctx, index){
-    int widgetWidth = (MediaQuery.of(ctx).size.width).floor();
 
     return Dismissible(
       resizeDuration: const Duration(milliseconds: 200), // a value between 300 and 800 ish will cause the text wiget within the background to persist after dismissed..?
@@ -18,7 +17,7 @@ class ExpensesList extends StatelessWidget{
       },
       key: ValueKey(expenses[index]),
       background: Container(
-        color: Theme.of(ctx).colorScheme.error,
+        color: Theme.of(ctx).colorScheme.error.withOpacity(0.6),
         margin: EdgeInsets.symmetric(
         horizontal: Theme.of(ctx).cardTheme.margin!.horizontal,
         ),
