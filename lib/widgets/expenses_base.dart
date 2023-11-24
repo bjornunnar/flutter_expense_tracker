@@ -15,9 +15,10 @@ class Expenses extends StatefulWidget {
 class _ExpensesState extends State<Expenses> {
   void _openAddExpenseOverlay() {
     showModalBottomSheet(
-        isScrollControlled: true,
-        context: context,
-        builder: (ctx) => NewExpense(addNewExpense: addNewExpense));
+      useSafeArea: true, // makes sure that the overlay does not overlap with camera lens etc.
+      isScrollControlled: true,
+      context: context,
+      builder: (ctx) => NewExpense(addNewExpense: addNewExpense));
   }
 
 
@@ -70,8 +71,8 @@ class _ExpensesState extends State<Expenses> {
   }
 
   @override
-
   Widget build(BuildContext context) {
+    final double availableWidth = MediaQuery.of(context).size.width;
     
     // fallback text, displayed if there are no expenses in current view
     Widget mainContent = 
@@ -97,9 +98,20 @@ class _ExpensesState extends State<Expenses> {
           icon: const Icon(Icons.add),
         )
       ]),
-      body: Column(
+      body: availableWidth < 600 ? Column( // if width is less than 600px, build Column..
         children: [
           Chart(expenses: _registeredExpenses),
+          Expanded(
+            child: mainContent
+          ),
+        ],
+      ) : Row( // ..and if 600 or more, build Row
+        children: [
+          Expanded(
+            child: Chart(
+              expenses: _registeredExpenses
+              )
+          ),
           Expanded(
             child: mainContent
           ),
