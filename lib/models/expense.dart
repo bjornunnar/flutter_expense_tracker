@@ -11,7 +11,7 @@ final formatter = DateFormat.yMd();
 const categoryIcons = {
   Category.food: Icons.lunch_dining,
   Category.travel: Icons.travel_explore,
-  Category.leisure: Icons.free_breakfast,
+  Category.leisure: Icons.sports_golf_outlined,
   Category.work: Icons.work
 };
 

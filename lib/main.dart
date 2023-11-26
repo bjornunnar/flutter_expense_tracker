@@ -1,6 +1,5 @@
 import 'package:expense_tracker/widgets/expenses_base.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 void main() {
 
@@ -10,7 +9,7 @@ void main() {
 
     runApp(
       MaterialApp(
-        themeMode: ThemeMode.dark,
+        themeMode: ThemeMode.system,
         theme: lightTheme,
         darkTheme: darkTheme,
         home: const Expenses(),

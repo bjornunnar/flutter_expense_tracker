@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:expense_tracker/widgets/chart/chart_bar.dart';
 import 'package:expense_tracker/models/expense.dart';
 
@@ -31,8 +30,10 @@ class Chart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double availableWidth = MediaQuery.of(context).size.width;
     final isDarkMode =
         MediaQuery.of(context).platformBrightness == Brightness.dark;
+
     return Container(
       margin: const EdgeInsets.all(16),
       padding: const EdgeInsets.symmetric(
@@ -40,7 +41,8 @@ class Chart extends StatelessWidget {
         horizontal: 8,
       ),
       width: double.infinity,
-      height: 180,
+      
+      height: availableWidth < 600 ? 180 : double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         gradient: LinearGradient(
@@ -60,9 +62,10 @@ class Chart extends StatelessWidget {
               children: [
                 for (final bucket in buckets) // alternative to map()
                   ChartBar(
+                    amount: bucket.totalExpenses,
                     fill: bucket.totalExpenses == 0
-                        ? 0
-                        : bucket.totalExpenses / maxTotalExpense,
+                      ? 0
+                      : bucket.totalExpenses / maxTotalExpense,
                   )
               ],
             ),
@@ -74,14 +77,22 @@ class Chart extends StatelessWidget {
                   (bucket) => Expanded(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 4),
-                      child: Icon(
-                        categoryIcons[bucket.category],
-                        color: isDarkMode
-                            ? Theme.of(context).colorScheme.secondary
-                            : Theme.of(context)
+                      child: Column(
+                        children: [
+                          Icon(
+                            semanticLabel: "${bucket.category}",
+                            categoryIcons[bucket.category],
+                            color: isDarkMode
+                              ? Theme.of(context).colorScheme.secondary
+                              : Theme.of(context)
                                 .colorScheme
                                 .primary
                                 .withOpacity(0.7),
+                          ),
+                          availableWidth >= 600 ?
+                            Text(bucket.category.name.replaceRange(0, 1, bucket.category.name.substring(0,1).toUpperCase()))
+                          : const SizedBox(),
+                        ],
                       ),
                     ),
                   ),
