@@ -80,9 +80,8 @@ class _NewExpenseState extends State<NewExpense> {
 
   void _submitExpenseData() {
     final enteredAmount = double.tryParse(_amountController.text);
-    final amountIsInvalid = enteredAmount == null ||
-        enteredAmount <=
-            0; // returns false if no amount is given, or if it's zero or below
+    // returns false if no amount is given, or if it's zero or below
+    final amountIsInvalid = enteredAmount == null || enteredAmount <= 0;
     if (_titleController.text.trim().isEmpty ||
         amountIsInvalid ||
         _selectedDate == null) {
@@ -131,9 +130,9 @@ class _NewExpenseState extends State<NewExpense> {
                         child: TextField(
                           controller: _amountController,
                           decoration: const InputDecoration(
-                            prefixText: "\$",
-                            prefixStyle: TextStyle(fontSize: 12),
-                            label: Text("Amount")),
+                              prefixText: "\$",
+                              prefixStyle: TextStyle(fontSize: 12),
+                              label: Text("Amount")),
                           keyboardType: TextInputType.number,
                         ),
                       ),
@@ -151,12 +150,12 @@ class _NewExpenseState extends State<NewExpense> {
                       DropdownButton(
                           value: _selectedCategory,
                           items:
-                            // gets the "values" enum list, call map() to convert each one into a dropdownmenuitem object, and then toList() on the whole thing
-                            Category.values
-                              .map((category) => DropdownMenuItem(
-                                value: category,
-                                child: Text(category.name.toUpperCase())))
-                              .toList(),
+                              // gets the "values" enum list, call map() to convert each one into a dropdownmenuitem object, and then toList() on the whole thing
+                              Category.values
+                                  .map((category) => DropdownMenuItem(
+                                      value: category,
+                                      child: Text(category.name.toUpperCase())))
+                                  .toList(),
                           onChanged: (value) {
                             if (value == null) {
                               return;

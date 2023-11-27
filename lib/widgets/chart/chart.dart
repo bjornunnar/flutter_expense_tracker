@@ -7,6 +7,7 @@ class Chart extends StatelessWidget {
 
   final List<Expense> expenses;
 
+  // call the get function for all buckets and return a list with each one
   List<ExpenseBucket> get buckets {
     return [
       ExpenseBucket.forCategory(expenses, Category.food),
@@ -41,7 +42,8 @@ class Chart extends StatelessWidget {
         horizontal: 8,
       ),
       width: double.infinity,
-      
+      // use the available height if we're in landscape mode
+      // again, 600 is the number we use in expenses_base..
       height: availableWidth < 600 ? 180 : double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
@@ -60,12 +62,16 @@ class Chart extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
+                // we cycle through the buckets and create a chart bar
+                // if the total is higher than 0.
+                // the highest total is always 100% height, the others
+                // a fraction of that one.
                 for (final bucket in buckets) // alternative to map()
                   ChartBar(
                     amount: bucket.totalExpenses,
                     fill: bucket.totalExpenses == 0
-                      ? 0
-                      : bucket.totalExpenses / maxTotalExpense,
+                        ? 0
+                        : bucket.totalExpenses / maxTotalExpense,
                   )
               ],
             ),
@@ -83,15 +89,20 @@ class Chart extends StatelessWidget {
                             semanticLabel: "${bucket.category}",
                             categoryIcons[bucket.category],
                             color: isDarkMode
-                              ? Theme.of(context).colorScheme.secondary
-                              : Theme.of(context)
-                                .colorScheme
-                                .primary
-                                .withOpacity(0.7),
+                                ? Theme.of(context).colorScheme.secondary
+                                : Theme.of(context)
+                                    .colorScheme
+                                    .primary
+                                    .withOpacity(0.7),
                           ),
-                          availableWidth >= 600 ?
-                            Text(bucket.category.name.replaceRange(0, 1, bucket.category.name.substring(0,1).toUpperCase()))
-                          : const SizedBox(),
+                          availableWidth >= 600
+                              ? Text(bucket.category.name.replaceRange(
+                                  0,
+                                  1,
+                                  bucket.category.name
+                                      .substring(0, 1)
+                                      .toUpperCase()))
+                              : const SizedBox(),
                         ],
                       ),
                     ),
